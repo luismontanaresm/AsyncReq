@@ -55,7 +55,7 @@ const server = app.listen(app.get('port'), ()=>{
 setInterval( async function(){
   const now_str = verbose_now();
   const tasks = await Task.find({ $and: [ {date: {$lte: now_str}}, {accomplished: false}] });
-  console.log(tasks);
+  console.log(now_str, tasks);
   tasks.forEach((task)=>{
     request(task.url, function(err, res, body){
       console.log("request to " + task.url);
@@ -63,4 +63,4 @@ setInterval( async function(){
     task.accomplished = true;
     task.save();
   });
-}, 300000);
+}, 10000);

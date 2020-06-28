@@ -61,7 +61,39 @@ router.get("/list", async function(req, res){
       message: tasks,
     });
   }
+});
 
+// Pending tasks
+router.get("/pendings", async function(req, res){
+  if ( auth_token && (! req.query.auth_token || req.query.auth_token != auth_token) ){
+      res.json({
+        status: -1,
+        message: "Permission denied",
+      });
+  } else {
+    const tasks = await Task.find({accomplished: false});
+    res.json({
+      status: 1,
+      message: tasks,
+    });
+  }
+});
+
+// Accomplished tasks
+// Pending tasks
+router.get("/accomplished", async function(req, res){
+  if ( auth_token && (! req.query.auth_token || req.query.auth_token != auth_token) ){
+      res.json({
+        status: -1,
+        message: "Permission denied",
+      });
+  } else {
+    const tasks = await Task.find({accomplished: true});
+    res.json({
+      status: 1,
+      message: tasks,
+    });
+  }
 });
 
 // Delete task
